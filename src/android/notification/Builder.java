@@ -32,6 +32,9 @@ import android.support.v4.app.NotificationCompat.MessagingStyle.Message;
 import android.support.v4.media.app.NotificationCompat.MediaStyle;
 import android.support.v4.media.session.MediaSessionCompat;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+
 import java.util.List;
 import java.util.Random;
 
