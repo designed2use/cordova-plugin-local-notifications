@@ -37,6 +37,7 @@ import java.util.Random;
 
 import de.appplant.cordova.plugin.notification.action.Action;
 
+import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static de.appplant.cordova.plugin.notification.Notification.EXTRA_UPDATE;
 
@@ -144,7 +145,12 @@ public final class Builder {
                 .setLights(options.getLedColor(), options.getLedOn(), options.getLedOff());
 
         if (sound != Uri.EMPTY && !isUpdate()) {
-            builder.setSound(sound);
+            try {
+              Ringtone r = RingtoneManager.getRingtone(context.getApplicationContext(), sound);
+              r.play();
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
         }
 
         if (options.isWithProgressBar()) {
@@ -352,7 +358,7 @@ public final class Builder {
 
         int reqCode = random.nextInt();
 
-        PendingIntent contentIntent = PendingIntent.getService(
+        PendingIntent contentIntent = PendingIntent.getActivity(
                 context, reqCode, intent, FLAG_UPDATE_CURRENT);
 
         builder.setContentIntent(contentIntent);
@@ -402,8 +408,8 @@ public final class Builder {
 
         int reqCode = random.nextInt();
 
-        return PendingIntent.getService(
-                context, reqCode, intent, FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(
+                context, reqCode, intent, FLAG_CANCEL_CURRENT);
     }
 
     /**
